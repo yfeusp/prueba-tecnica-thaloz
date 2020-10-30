@@ -1,0 +1,26 @@
+version: "3.8"
+   
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: thaloz
+      POSTGRES_USER: thaloz
+      POSTGRES_PASSWORD: thaloz
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      
+  web:
+    build: .
+    command: ./entrypoint.sh
+    restart: always
+    env_file: .env
+    depends_on:
+      - db
+    links:
+      - db:db
+    volumes:
+      - ./app:/srv/app
+    ports:
+      - '8000:8000'
