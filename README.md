@@ -22,4 +22,4 @@ docker-compose up --build -d
 ## Notes:
 * Your database data will be in `/data`, this won't be commited.
 * .env will be loaded automatically in your container.
-* Django has autoreload and tracks codechanges.
+* Django has autoreload and tracks codechanges, so if you edit your code with the containers up it will update without building.
