@@ -25,7 +25,7 @@ docker-compose up --build -d
 * Django has autoreload and tracks codechanges, so if you edit your code with the containers up it will update 
 without building.
 
-## Code Assigment 
+## Code Assignment 
 
 We want to implement a user microservice which must have the following routes
 
