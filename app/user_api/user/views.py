@@ -9,22 +9,24 @@ from user.serializers import (
     UserLoginSerializer, UserModelSerializer,
     UserCreateSerializer, UserUpdateSerializer)
 from .models import ActivityReport
+from .mixins import MixedPermissionMixin
 
 
-class UserViewSet (viewsets.ModelViewSet):
+class UserViewSet (MixedPermissionMixin, viewsets.ModelViewSet):
 
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserModelSerializer
-    permission_classes = [
-        permissions.AllowAny
-    ]
+    permission_classes_by_action = {'create': [permissions.AllowAny]}
 
-    @action(detail=False, methods=['post'])
+    @action(
+        detail=False, methods=['post'],
+        permission_classes=[permissions.AllowAny])
     def login(self, request):
         """Login"""
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user, token = serializer.save()
+       
         # Save activity report
         ActivityReport.objects.create(user=user)
 
