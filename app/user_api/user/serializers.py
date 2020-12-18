@@ -10,7 +10,7 @@ class UserModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -36,7 +36,7 @@ class UserLoginSerializer(serializers.Serializer):
         return self.context['user'], token.key
 
 
-class UserSignUpSerializer(serializers.Serializer):
+class UserCreateSerializer(serializers.Serializer):
 
     email = serializers.EmailField(
         validators=[UniqueValidator(queryset=User.objects.all())]
@@ -58,12 +58,31 @@ class UserSignUpSerializer(serializers.Serializer):
         passwd = data['password']
         passwd_conf = data['password_confirmation']
         if passwd != passwd_conf:
-            raise serializers.ValidationError("Las contraseñas no coinciden")
+            raise serializers.ValidationError("Passwords do not match")
         password_validation.validate_password(passwd)
 
         return data
 
     def create(self, data):
+        """Save the user"""
         data.pop('password_confirmation')
         user = User.objects.create_user(**data)
+
         return user
+
+
+class UserUpdateSerializer(UserCreateSerializer):
+
+    def update(self, instance, data):
+        """Update the user"""
+        if 'password_confirmation' in data:
+            data.pop('password_confirmation')
+        if 'password' in data:
+            instance.set_password(data['password'])
+            data.pop('password')
+        # user = User.objects.filter(pk=instance.pk).update(**data)
+        for (key, value) in data.items():
+            setattr(instance, key, value)
+        instance.save()
+
+        return instance
