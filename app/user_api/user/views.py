@@ -38,17 +38,6 @@ class UserViewSet (MixedPermissionMixin, viewsets.ModelViewSet):
         return Response(data, status=status.HTTP_201_CREATED)
 
     def create(self, request, *args, **kwargs):
-        """
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        """
-        # self.serializer_class = UserSignUpSerializer
-        # print(self.get_serializer_class)
-        # return super(UserViewSet, self).create(request, *args, **kwargs)
-
         serializer = UserCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
@@ -73,6 +62,8 @@ class UserViewSet (MixedPermissionMixin, viewsets.ModelViewSet):
 
 
 class ActivityReportViewSet (viewsets.GenericViewSet):
+
+    serializer_class = ActivityReport
 
     @action(detail=False, methods=['get'])
     def day(self, request):

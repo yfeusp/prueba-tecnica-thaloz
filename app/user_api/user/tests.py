@@ -12,19 +12,13 @@ class UserLoginTest(APITestCase):
 
     def setUp(self):
         data_user = {
-            'username': 'jhon',
-            'email': 'jhon@example.com',
-            'first_name': 'Jhon',
-            'last_name': 'Doe',
-            'password': '12345678as'
+            'username': 'jhon', 'email': 'jhon@example.com',
+            'first_name': 'Jhon', 'last_name': 'Doe', 'password': '12345678as'
         }
         User.objects.create_user(**data_user)
 
     def test_login_ok(self):
-        data = {
-            'username': 'jhon',
-            'password': '12345678as'
-        }
+        data = {'username': 'jhon', 'password': '12345678as'}
 
         response = self.client.post(
             '/user/login/', dumps(data),
@@ -36,10 +30,7 @@ class UserLoginTest(APITestCase):
         self.assertEqual(True, 'access_token' in response.json().keys())
 
     def test_login_invalid_password(self):
-        data = {
-            'username': 'jhon',
-            'password': '12345678at'
-        }
+        data = {'username': 'jhon', 'password': '12345678at'}
 
         response = self.client.post(
             '/user/login/', dumps(data),
@@ -54,10 +45,7 @@ class UserLoginTest(APITestCase):
             response.json().get('non_field_errors'))
 
     def test_login_password_len(self):
-        data = {
-            'username': 'jhon',
-            'password': '12345'
-        }
+        data = {'username': 'jhon', 'password': '12345'}
 
         response = self.client.post(
             '/user/login/', dumps(data),
@@ -75,12 +63,9 @@ class UserCreateTest(APITestCase):
 
     def test_create_ok(self):
         data = {
-            'username': 'jhon',
-            'email': 'jhon@example.com',
-            'first_name': 'Jhon',
-            'last_name': 'Doe',
-            'password': '12345678as',
-            'password_confirmation': '12345678as',
+            'username': 'jhon', 'email': 'jhon@example.com',
+            'first_name': 'Jhon', 'last_name': 'Doe',
+            'password': '12345678as', 'password_confirmation': '12345678as'
         }
 
         response = self.client.post(
@@ -153,12 +138,9 @@ class UserUpdateTest(APITestCase):
 
     def test_update_ok(self):
         data = {
-            'username': 'jhon2',
-            'email': 'jhon2@example.com',
-            'first_name': 'Jhon2',
-            'last_name': 'Doe2',
-            'password': '12345678as1',
-            'password_confirmation': '12345678as1',
+            'username': 'jhon2', 'email': 'jhon2@example.com',
+            'first_name': 'Jhon2', 'last_name': 'Doe2',
+            'password': '12345678as1', 'password_confirmation': '12345678as1'
         }
 
         client = APIClient(
@@ -213,12 +195,9 @@ class UserUpdateTest(APITestCase):
     def test_update_no_token(self):
         client = APIClient()
         data = {
-            'username': 'jhon2',
-            'email': 'jhon2@example.com',
-            'first_name': 'Jhon2',
-            'last_name': 'Doe2',
-            'password': '12345678as1',
-            'password_confirmation': '12345678as1',
+            'username': 'jhon2', 'email': 'jhon2@example.com',
+            'first_name': 'Jhon2', 'last_name': 'Doe2',
+            'password': '12345678as1', 'password_confirmation': '12345678as1'
         }
         response = client.put(
             '/user/%s/' % self.user2.id, dumps(data),
@@ -232,12 +211,9 @@ class UserUpdateTest(APITestCase):
 
     def test_update_invalid_token(self):
         data = {
-            'username': 'jhon2',
-            'email': 'jhon2@example.com',
-            'first_name': 'Jhon2',
-            'last_name': 'Doe2',
-            'password': '12345678as1',
-            'password_confirmation': '12345678as1',
+            'username': 'jhon2', 'email': 'jhon2@example.com',
+            'first_name': 'Jhon2', 'last_name': 'Doe2',
+            'password': '12345678as1', 'password_confirmation': '12345678as1'
         }
         client = APIClient(
             HTTP_AUTHORIZATION='Token 1212212212')
