@@ -5,6 +5,8 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
+from .models import ActivityReport
+
 
 class UserModelSerializer(serializers.ModelSerializer):
 
@@ -86,3 +88,12 @@ class UserUpdateSerializer(UserCreateSerializer):
         instance.save()
 
         return instance
+
+
+class ActivityReportSerializer(serializers.ModelSerializer):
+
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = ActivityReport
+        fields = ('user', 'date', 'count')

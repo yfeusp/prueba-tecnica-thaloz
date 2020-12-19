@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,25 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+# Swagger configuration
+SWAGGER_SETTINGS = {
+    'api_version': '1.0',
+    'SHOW_REQUEST_HEADERS': True,
+    'SUPPORTED_SUBMIT_METHODS': [
+        'get', 'post', 'put', 'delete', 'patch', 'options'],
+    'SECURITY_DEFINITIONS': {
+        'Auth Token eg [Token TKN]': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+        }
+    },
+    'USE_SESSION_AUTH': True,
+    'JSON_EDITOR': True,
+}
+
+# Login URLs for admin backend
+LOGIN_URL = '/admin/login'
+LOGOUT_URL = '/admin/logout'
+LOGIN_REDIRECT_URL = '/admin'

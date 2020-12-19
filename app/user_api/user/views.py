@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from .serializers import (
     UserLoginSerializer, UserModelSerializer,
-    UserCreateSerializer, UserUpdateSerializer)
+    UserCreateSerializer, UserUpdateSerializer, ActivityReportSerializer)
 from .models import ActivityReport
 from .mixins import MixedPermissionMixin
 
@@ -63,7 +63,8 @@ class UserViewSet (MixedPermissionMixin, viewsets.ModelViewSet):
 
 class ActivityReportViewSet (viewsets.GenericViewSet):
 
-    serializer_class = ActivityReport
+    queryset = ActivityReport.objects.all()
+    serializer_class = ActivityReportSerializer
 
     @action(detail=False, methods=['get'])
     def day(self, request):
