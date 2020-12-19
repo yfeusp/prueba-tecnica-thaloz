@@ -5,7 +5,7 @@ from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from user.serializers import (
+from .serializers import (
     UserLoginSerializer, UserModelSerializer,
     UserCreateSerializer, UserUpdateSerializer)
 from .models import ActivityReport

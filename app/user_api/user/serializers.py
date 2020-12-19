@@ -24,7 +24,7 @@ class UserLoginSerializer(serializers.Serializer):
         user = authenticate(
             username=data['username'], password=data['password'])
         if not user:
-            raise serializers.ValidationError('Invalid credentials')
+            raise serializers.ValidationError('Invalid credentials.')
 
         # Save the user in the context
         self.context['user'] = user
@@ -58,7 +58,7 @@ class UserCreateSerializer(serializers.Serializer):
         passwd = data['password']
         passwd_conf = data['password_confirmation']
         if passwd != passwd_conf:
-            raise serializers.ValidationError("Passwords do not match")
+            raise serializers.ValidationError("Passwords do not match.")
         password_validation.validate_password(passwd)
 
         return data
