@@ -7,7 +7,8 @@ from rest_framework.response import Response
 
 from .serializers import (
     UserLoginSerializer, UserModelSerializer,
-    UserCreateSerializer, UserUpdateSerializer, ActivityReportSerializer)
+    UserCreateSerializer, UserUpdateSerializer, ActivityReportSerializer,
+    ActivityReportDaySerializer, ActivityReportMonthSerializer)
 from .models import ActivityReport
 from .mixins import MixedPermissionMixin
 
@@ -71,33 +72,15 @@ class ActivityReportViewSet (viewsets.GenericViewSet):
         query = ActivityReport.objects.all().values(
             'user__username', 'date'
         ).annotate(count=Count('date')).order_by('date')
-        data = []
 
-        for row in query:
-            data.append(
-                {
-                    'user': row['user__username'],
-                    'date': row['date'].strftime("%d/%m/%Y"),
-                    'count':  row['count']
-                }
-             )
-
-        return Response(data, status=status.HTTP_201_CREATED)
+        serializer = ActivityReportDaySerializer(query)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'])
     def month(self, request):
         query = ActivityReport.objects.all().values(
             'user__username', 'date'
         ).annotate(count=Count('date__month')).order_by('date')
-        data = []
 
-        for row in query:
-            data.append(
-                {
-                    'user': row['user__username'],
-                    'date': row['date'].strftime("%m/%Y"),
-                    'count':  row['count']
-                }
-             )
-
-        return Response(data, status=status.HTTP_201_CREATED)
+        serializer = ActivityReportMonthSerializer(query)
+        return Response(serializer.data, status=status.HTTP_200_OK)

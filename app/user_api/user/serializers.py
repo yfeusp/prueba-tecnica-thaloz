@@ -97,3 +97,35 @@ class ActivityReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActivityReport
         fields = ('user', 'date', 'count')
+
+
+class ActivityReportDaySerializer(serializers.BaseSerializer):
+
+    def to_representation(self, queryset):
+        data = []
+        for row in queryset:
+            data.append(
+                {
+                    'user': row['user__username'],
+                    'date': row['date'].strftime("%d/%m/%Y"),
+                    'count': row['count']
+                }
+            )
+
+        return data
+
+
+class ActivityReportMonthSerializer(serializers.BaseSerializer):
+
+    def to_representation(self, queryset):
+        data = []
+        for row in queryset:
+            data.append(
+                {
+                    'user': row['user__username'],
+                    'date': row['date'].strftime("%m/%Y"),
+                    'count': row['count']
+                }
+            )
+
+        return data
