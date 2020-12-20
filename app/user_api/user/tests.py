@@ -402,7 +402,7 @@ class ActivityReportTest(APITestCase):
         client = APIClient(
             HTTP_AUTHORIZATION='Token ' + self.user1.auth_token.key)
         response = client.get('/activityReport/day/')
-        self.assertEqual(201, response.status_code)
+        self.assertEqual(200, response.status_code)
         self.assertEqual(len(response.json()), 3)
         self.assertListEqual(
             [
@@ -436,7 +436,7 @@ class ActivityReportTest(APITestCase):
         client = APIClient(
             HTTP_AUTHORIZATION='Token ' + self.user1.auth_token.key)
         response = client.get('/activityReport/month/')
-        self.assertEqual(201, response.status_code)
+        self.assertEqual(200, response.status_code)
         self.assertEqual(len(response.json()), 3)
         self.assertListEqual(
             [
