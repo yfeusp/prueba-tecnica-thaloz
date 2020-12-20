@@ -69,18 +69,18 @@ class ActivityReportViewSet (viewsets.GenericViewSet):
 
     @action(detail=False, methods=['get'])
     def day(self, request):
-        query = ActivityReport.objects.all().values(
+        queryset = ActivityReport.objects.all().values(
             'user__username', 'date'
         ).annotate(count=Count('date')).order_by('date')
 
-        serializer = ActivityReportDaySerializer(query)
+        serializer = ActivityReportDaySerializer(queryset)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'])
     def month(self, request):
-        query = ActivityReport.objects.all().values(
+        queryset = ActivityReport.objects.all().values(
             'user__username', 'date'
         ).annotate(count=Count('date__month')).order_by('date')
 
-        serializer = ActivityReportMonthSerializer(query)
+        serializer = ActivityReportMonthSerializer(queryset)
         return Response(serializer.data, status=status.HTTP_200_OK)
